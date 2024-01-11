@@ -28,20 +28,32 @@ def find_first_guess(wordList):
 
 
 def filter_words_no_letter(wordList, letter):
-    print(len(wordList))
     emptyList = []
     for everyword in wordList:
 
         if letter not in everyword:
             emptyList.append(everyword)
-    print(emptyList)
-    print(len((emptyList)))
     return emptyList
+
 
 def filter_words_with_letter(wordList, letter):
     emptyList = []
     for everyword in wordList:
         if letter in everyword:
+            emptyList.append(everyword)
+    return emptyList
+
+def filter_words_wrong_position(wordList, index, letter):
+    emptyList = []
+    for everyword in wordList:
+        if letter != everyword[index]:
+            emptyList.append(everyword)
+    return emptyList
+
+def filter_words_correct_position(wordList, index, letter):
+    emptyList = []
+    for everyword in wordList:
+        if letter == everyword[index]:
             emptyList.append(everyword)
     return emptyList
 
@@ -64,24 +76,38 @@ def inputResult():
             print("Invalid result")
 
 
-def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
+def analyze_result(wordUsed, userInput, wordList):
     index = 0
-    for element in userInput:
+    print(wordList)
 
+    for element in userInput:
         emptylist = []
-        if element == '0' or element == '1':
-            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
-            print(availableAlphabets)
+        if element == '0':
+            for i in range(5):
+                if i != index:
+
             newlist = filter_words_no_letter(wordList, wordUsed[index])
             for newword in newlist:
                 emptylist.append(newword)
         if element == '1':
-            pass
+            newlist = filter_words_with_letter(wordList, wordUsed[index])
+            for newword in newlist:
+                emptylist.append(newword)
+
+            newsecondlist = filter_words_wrong_position(emptylist, index, wordUsed[index])
+            emptylist.clear()
+            for posiword in newsecondlist:
+                emptylist.append(posiword)
+
         if element == '2':
-            pass
+            newlist = filter_words_correct_position(wordList,index, wordUsed[index])
+            for newword in newlist:
+                emptylist.append(newword)
+
         wordList.clear()
-        for refinedWords in emptylist:
-            wordList.append(refinedWords)
+        for everyword in emptylist:
+            wordList.append(everyword)
+
         index += 1
     return wordList
 
@@ -91,17 +117,14 @@ def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
 listOfMostUniqueVowels = find_first_guess(words_to_list)
 random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
 
-alphabetsToUse = 'abcdefghijklmnopqrstuvwxyz'
-suggestStartingWord = random_most_unique_vowel_word
-
-print("Suggested starting word: " + suggestStartingWord)
+print("Suggested starting word: " + random_most_unique_vowel_word)
 
 startWord = input("Chosen word: ")
 
 while len(words_to_list) != 1:
     userInput = inputResult()
-    optimizedList = analyze_result(startWord, userInput, alphabetsToUse, words_to_list)
-    words_to_list.clear()
-    for word in optimizedList:
-        words_to_list.append(word)
-    #print("Guess with word: " + random.choice(words_to_list))
+    print(userInput)
+    optimizedList = analyze_result(startWord, userInput, words_to_list)
+
+    startWord = random.choice(optimizedList)
+    print("Guess with word: " + startWord)
