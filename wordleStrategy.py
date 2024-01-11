@@ -69,7 +69,7 @@ def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
     for element in userInput:
 
         emptylist = []
-        if element == '0':
+        if element == '0' or element == '1':
             availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
             print(availableAlphabets)
             newlist = filter_words_no_letter(wordList, wordUsed[index])
