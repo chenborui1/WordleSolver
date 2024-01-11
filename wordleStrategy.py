@@ -2,15 +2,16 @@ import os
 import random
 import re
 
-#Initialize word list
+# Initialize word list
 current_directory = os.getcwd()
-file=open("words.txt", "r")
+file = open("words.txt", "r")
 words = file.read()
 words_to_list = words.split("\n")
+print(len(words_to_list))
 file.close()
 
 
-#Methods
+# Methods
 
 def find_first_guess(wordList):
     emptyList = []
@@ -22,11 +23,30 @@ def find_first_guess(wordList):
                 counter += 1
         if counter == 4:
             emptyList.append(word)
-            
+
     return emptyList
 
-def validResult(result):
-    checkerForInteger = False
+
+def filter_words_no_letter(wordList, letter):
+    print(len(wordList))
+    emptyList = []
+    for everyword in wordList:
+
+        if letter not in everyword:
+            emptyList.append(everyword)
+    print(emptyList)
+    print(len((emptyList)))
+    return emptyList
+
+def filter_words_with_letter(wordList, letter):
+    emptyList = []
+    for everyword in wordList:
+        if letter in everyword:
+            emptyList.append(everyword)
+    return emptyList
+
+
+def valid_result(result):
     if len(result) != 5:
         return False
     if not bool(re.match('^[012]+$', result)):
@@ -36,51 +56,52 @@ def validResult(result):
 
 def inputResult():
     while True:
-    
+
         result = input('Result? ')
-        if validResult(result):
+        if valid_result(result):
             return result
         else:
             print("Invalid result")
 
-def analyze_result(wordUsed, userInput, availableAlphabets):
-    #Need to update word alphabets based on user input
-    #Analyze user input and word used to change availableAlphabets
-    #Ultimately get the next best word to try
-    pass       
+
+def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
+    index = 0
+    for element in userInput:
+
+        emptylist = []
+        if element == '0' or element == '1':
+            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
+            print(availableAlphabets)
+            newlist = filter_words_no_letter(wordList, wordUsed[index])
+            for newword in newlist:
+                emptylist.append(newword)
+        if element == '1':
+            pass
+        if element == '2':
+            pass
+        wordList.clear()
+        for refinedWords in emptylist:
+            wordList.append(refinedWords)
+        index += 1
+    return wordList
 
 
-#Code base
-    
+# Code base
+
 listOfMostUniqueVowels = find_first_guess(words_to_list)
 random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
 
-alphabetsToUse = ['abcdefghijklmnopqrstuvwxyz']
-firstWord = random_most_unique_vowel_word
+alphabetsToUse = 'abcdefghijklmnopqrstuvwxyz'
+suggestStartingWord = random_most_unique_vowel_word
 
-print("Put in: " + random_most_unique_vowel_word)
+print("Suggested starting word: " + suggestStartingWord)
 
-# Input 5 digit number that consists of only 0, 1, or 2
-# Where 0 is that letter is not present
-# Where 1 is that letter is present but not at the correct index
-# Where 2 is that is at the correct spot
+startWord = input("Chosen word: ")
 
-analyze_result(firstWord, inputResult(), alphabetsToUse)
-
-
-
-
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-
+while len(words_to_list) != 1:
+    userInput = inputResult()
+    optimizedList = analyze_result(startWord, userInput, alphabetsToUse, words_to_list)
+    words_to_list.clear()
+    for word in optimizedList:
+        words_to_list.append(word)
+    #print("Guess with word: " + random.choice(words_to_list))
