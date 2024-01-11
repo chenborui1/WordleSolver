@@ -7,6 +7,7 @@ current_directory = os.getcwd()
 file = open("words.txt", "r")
 words = file.read()
 words_to_list = words.split("\n")
+print(len(words_to_list))
 file.close()
 
 
@@ -27,15 +28,15 @@ def find_first_guess(wordList):
 
 
 def filterWordsByLetter(wordList, alphabet):
+    emptyList = []
     for word in wordList:
         letters = set(word)
-        if alphabet in letters:
-            wordList.remove(word)
-    return wordList
+        if alphabet not in letters:
+            emptyList.append(word)
+    return emptyList
 
 
 def validResult(result):
-    checkerForInteger = False
     if len(result) != 5:
         return False
     if not bool(re.match('^[012]+$', result)):
@@ -68,12 +69,12 @@ def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
         # Where 2 is that is at the correct spot
 
         if element == '0':
-            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
-            filterWordsByLetter(wordList, wordUsed[index])
+            listOfAlphabets = availableAlphabets.replace(wordUsed[index], '')
+            print(filterWordsByLetter(wordList, listOfAlphabets))
 
         index += 1
 
-    print(wordList)
+
 
 
 # Code base
@@ -87,3 +88,4 @@ firstWord = random_most_unique_vowel_word
 print("Put in: " + random_most_unique_vowel_word)
 
 analyze_result(firstWord, inputResult(), alphabetsToUse, words_to_list)
+print(alphabetsToUse)
