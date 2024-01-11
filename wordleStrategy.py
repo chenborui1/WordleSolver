@@ -44,10 +44,26 @@ def inputResult():
             print("Invalid result")
 
 def analyze_result(wordUsed, userInput, availableAlphabets):
+    
     #Need to update word alphabets based on user input
     #Analyze user input and word used to change availableAlphabets
     #Ultimately get the next best word to try
-    pass       
+
+    #First reduce word list length by getting rid of all alphabets that are not present
+    index = 0
+    for element in userInput:
+        if element is '0':
+            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
+        if element is '1':
+            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
+        if element is '2':
+            availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
+        index += 1
+    print(availableAlphabets)
+            
+
+
+    
 
 
 #Code base
@@ -55,7 +71,7 @@ def analyze_result(wordUsed, userInput, availableAlphabets):
 listOfMostUniqueVowels = find_first_guess(words_to_list)
 random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
 
-alphabetsToUse = ['abcdefghijklmnopqrstuvwxyz']
+alphabetsToUse = 'abcdefghijklmnopqrstuvwxyz'
 firstWord = random_most_unique_vowel_word
 
 print("Put in: " + random_most_unique_vowel_word)
