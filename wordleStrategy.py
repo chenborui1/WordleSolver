@@ -76,6 +76,32 @@ def inputResult():
             print("Invalid result")
 
 
+def contains_duplicate_letter(word, index):
+    for i in range(len(word)):
+        if i != index and word[i] == word[index]:
+            return True
+    return False
+
+
+def grey_all_duplicates(word, letter, index, userinput):
+    for i in range(5):
+        if word[i] == letter and userinput[i] != '0':
+            return False
+    return True
+
+def prioritize_unique_letters(optimizedlist):
+    emptylist = []
+    for words in optimizedlist:
+        if len(set(words)) == len(words):
+            emptylist.append(words)
+
+    return emptylist
+
+
+
+
+
+
 def analyze_result(wordUsed, userInput, wordList):
     index = 0
 
@@ -83,11 +109,18 @@ def analyze_result(wordUsed, userInput, wordList):
     for element in userInput:
         emptylist = []
         if element == '0':
-
-
-            newlist = filter_words_no_letter(wordList, wordUsed[index])
-            for newword in newlist:
-                emptylist.append(newword)
+            if not contains_duplicate_letter(wordUsed, index):
+                newlist = filter_words_no_letter(wordList, wordUsed[index])
+                for newword in newlist:
+                    emptylist.append(newword)
+            else:
+                if grey_all_duplicates(wordUsed, wordUsed[index], index, userInput):
+                    newlist = filter_words_no_letter(wordList, wordUsed[index])
+                    for newword in newlist:
+                        emptylist.append(newword)
+                else:
+                    for newword in wordList:
+                        emptylist.append(newword)
         if element == '1':
             newlist = filter_words_with_letter(wordList, wordUsed[index])
             for newword in newlist:
@@ -122,9 +155,11 @@ startWord = input("Chosen word: ")
 
 while len(words_to_list) != 1:
     userInput = inputResult()
-    print(userInput)
     optimizedList = analyze_result(startWord, userInput, words_to_list)
+    if not prioritize_unique_letters(optimizedList):
+        startWord = random.choice(optimizedList)
+    else:
+        startWord = random.choice(prioritize_unique_letters(optimizedList))
 
-    startWord = random.choice(optimizedList)
-    print(optimizedList)
     print("Guess with word: " + startWord)
+
