@@ -78,13 +78,12 @@ def inputResult():
 
 def analyze_result(wordUsed, userInput, wordList):
     index = 0
-    print(wordList)
+
 
     for element in userInput:
         emptylist = []
         if element == '0':
-            for i in range(5):
-                if i != index:
+
 
             newlist = filter_words_no_letter(wordList, wordUsed[index])
             for newword in newlist:
@@ -127,4 +126,5 @@ while len(words_to_list) != 1:
     optimizedList = analyze_result(startWord, userInput, words_to_list)
 
     startWord = random.choice(optimizedList)
+    print(optimizedList)
     print("Guess with word: " + startWord)
