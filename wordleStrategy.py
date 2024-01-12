@@ -160,6 +160,7 @@ while len(words_to_list) != 1:
         startWord = random.choice(optimizedList)
     else:
         startWord = random.choice(prioritize_unique_letters(optimizedList))
-
+    print(optimizedList)
+    print(prioritize_unique_letters(optimizedList))
     print("Guess with word: " + startWord)
 
