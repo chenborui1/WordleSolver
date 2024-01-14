@@ -4,12 +4,18 @@ import re
 
 # Initialize word list
 current_directory = os.getcwd()
-file = open("words.txt", "r")
-words = file.read()
+allwords = open("words.txt", "r")
+commonwords = open("commonwords.txt", "r")
+words = allwords.read()
+commonwords_to_list = commonwords.read().split("\n")
 words_to_list = words.split("\n")
 print(len(words_to_list))
-file.close()
+print(len(commonwords_to_list))
+commonwords.close()
+allwords.close()
 
+# CONSTANTS
+LETTERS_NOT_USED = 'abcdefghijklmnopqrstuvwxyz'
 
 # Methods
 
@@ -97,6 +103,32 @@ def prioritize_unique_letters(optimizedlist):
 
     return emptylist
 
+def list_with_common_words(optimizedlist):
+    emptylist = []
+    for word in optimizedlist:
+        if word in commonwords_to_list:
+            emptylist.append(word)
+    return emptylist
+
+def get_word_with_most_recurring_letter(optimizedlist, letters_not_used):
+
+    emptylist = []
+    letter_number = 0
+    for letter in letters_not_used:
+        list_of_words_with_letter = []
+        for word in optimizedlist:
+            if letter in word:
+                list_of_words_with_letter.append(word)
+        if len(list_of_words_with_letter) >= letter_number:
+            letter_number = len(list_of_words_with_letter)
+            emptylist.append(letter)
+    print(emptylist)
+    most_letter = emptylist[-1]
+    for word in optimizedlist:
+        if most_letter in word:
+            return word
+        else:
+            return random.choice(optimizedlist)
 
 
 
@@ -131,6 +163,7 @@ def analyze_result(wordUsed, userInput, wordList):
             for posiword in newsecondlist:
                 emptylist.append(posiword)
 
+
         if element == '2':
             newlist = filter_words_correct_position(wordList,index, wordUsed[index])
             for newword in newlist:
@@ -140,11 +173,14 @@ def analyze_result(wordUsed, userInput, wordList):
         for everyword in emptylist:
             wordList.append(everyword)
 
+        global LETTERS_NOT_USED
+        LETTERS_NOT_USED = LETTERS_NOT_USED.replace(wordUsed[index], '')
         index += 1
     return wordList
 
 
 # Code base
+
 
 listOfMostUniqueVowels = find_first_guess(words_to_list)
 random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
@@ -157,10 +193,20 @@ while len(words_to_list) != 1:
     userInput = inputResult()
     optimizedList = analyze_result(startWord, userInput, words_to_list)
     if not prioritize_unique_letters(optimizedList):
-        startWord = random.choice(optimizedList)
+        commonlist = list_with_common_words(optimizedList)
+        if commonlist:
+            startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
+        else:
+            startWord = get_word_with_most_recurring_letter(optimizedList, LETTERS_NOT_USED)
     else:
-        startWord = random.choice(prioritize_unique_letters(optimizedList))
+        commonlist = list_with_common_words(prioritize_unique_letters(optimizedList))
+        if commonlist:
+            startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
+        else:
+            startWord = get_word_with_most_recurring_letter(prioritize_unique_letters(optimizedList), LETTERS_NOT_USED)
+    print(LETTERS_NOT_USED)
     print(optimizedList)
     print(prioritize_unique_letters(optimizedList))
+    print(words_to_list)
     print("Guess with word: " + startWord)
 
