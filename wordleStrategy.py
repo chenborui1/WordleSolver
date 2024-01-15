@@ -3,14 +3,15 @@ import random
 import re
 
 # Initialize word list
+
 current_directory = os.getcwd()
-allwords = open("words.txt", "r")
-commonwords = open("commonwords.txt", "r")
+allwords = open("Wordlists/words.txt", "r")
+commonwords = open("Wordlists/commonwords.txt", "r")
 words = allwords.read()
 commonwords_to_list = commonwords.read().split("\n")
 words_to_list = words.split("\n")
-print(len(words_to_list))
-print(len(commonwords_to_list))
+
+
 commonwords.close()
 allwords.close()
 
@@ -122,7 +123,6 @@ def get_word_with_most_recurring_letter(optimizedlist, letters_not_used):
         if len(list_of_words_with_letter) >= letter_number:
             letter_number = len(list_of_words_with_letter)
             emptylist.append(letter)
-    print(emptylist)
     most_letter = emptylist[-1]
     for word in optimizedlist:
         if most_letter in word:
@@ -151,7 +151,8 @@ def analyze_result(wordUsed, userInput, wordList):
                     for newword in newlist:
                         emptylist.append(newword)
                 else:
-                    for newword in wordList:
+                    newlist = filter_words_with_letter(wordList, wordUsed[index])
+                    for newword in newlist:
                         emptylist.append(newword)
         if element == '1':
             newlist = filter_words_with_letter(wordList, wordUsed[index])
@@ -181,17 +182,22 @@ def analyze_result(wordUsed, userInput, wordList):
 
 # Code base
 
+def get_word(answer_input, word):
 
-listOfMostUniqueVowels = find_first_guess(words_to_list)
-random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
 
-print("Suggested starting word: " + random_most_unique_vowel_word)
 
-startWord = input("Chosen word: ")
 
-while len(words_to_list) != 1:
-    userInput = inputResult()
-    optimizedList = analyze_result(startWord, userInput, words_to_list)
+    if answer_input == '-----':
+        global words_to_list
+        words_to_list = words.split("\n")
+        listOfMostUniqueVowels = find_first_guess(words_to_list)
+        random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
+        return random_most_unique_vowel_word
+    else:
+        startWord = word
+
+
+    optimizedList = analyze_result(startWord, answer_input, words_to_list)
     if not prioritize_unique_letters(optimizedList):
         commonlist = list_with_common_words(optimizedList)
         if commonlist:
@@ -203,10 +209,10 @@ while len(words_to_list) != 1:
         if commonlist:
             startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
         else:
-            startWord = get_word_with_most_recurring_letter(prioritize_unique_letters(optimizedList), LETTERS_NOT_USED)
-    print(LETTERS_NOT_USED)
-    print(optimizedList)
-    print(prioritize_unique_letters(optimizedList))
-    print(words_to_list)
-    print("Guess with word: " + startWord)
+            startWord = get_word_with_most_recurring_letter(prioritize_unique_letters(optimizedList),
+                                                            LETTERS_NOT_USED)
+    return startWord
+
+
+
 
