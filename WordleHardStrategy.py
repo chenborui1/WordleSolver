@@ -50,6 +50,8 @@ def filter_words_with_letter(wordList, letter):
             emptyList.append(everyword)
     return emptyList
 
+
+
 def filter_words_wrong_position(wordList, index, letter):
     emptyList = []
     for everyword in wordList:
@@ -65,22 +67,10 @@ def filter_words_correct_position(wordList, index, letter):
     return emptyList
 
 
-def valid_result(result):
-    if len(result) != 5:
-        return False
-    if not bool(re.match('^[012]+$', result)):
-        return False
-    return True
 
 
-def inputResult():
-    while True:
 
-        result = input('Result? ')
-        if valid_result(result):
-            return result
-        else:
-            print("Invalid result")
+
 
 
 def contains_duplicate_letter(word, index):
@@ -151,7 +141,7 @@ def analyze_result(wordUsed, userInput, wordList):
                     for newword in newlist:
                         emptylist.append(newword)
                 else:
-                    newlist = filter_words_with_letter(wordList, wordUsed[index])
+                    newlist = filter_words_wrong_position(wordList, index, wordUsed[index])
                     for newword in newlist:
                         emptylist.append(newword)
         if element == '1':
@@ -183,13 +173,12 @@ def analyze_result(wordUsed, userInput, wordList):
 # Code base
 
 def get_word(answer_input, word):
-
-
-
-
     if answer_input == '-----':
         global words_to_list
         words_to_list = words.split("\n")
+
+        global LETTERS_NOT_USED
+        LETTERS_NOT_USED = 'abcdefghijklmnopqrstuvwxyz'
         listOfMostUniqueVowels = find_first_guess(words_to_list)
         random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
         return random_most_unique_vowel_word
@@ -198,21 +187,12 @@ def get_word(answer_input, word):
 
 
     optimizedList = analyze_result(startWord, answer_input, words_to_list)
-    if not prioritize_unique_letters(optimizedList):
-        commonlist = list_with_common_words(optimizedList)
-        if commonlist:
-            startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
-        else:
-            startWord = get_word_with_most_recurring_letter(optimizedList, LETTERS_NOT_USED)
+    commonlist = list_with_common_words(optimizedList)
+    if commonlist:
+        startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
     else:
-        commonlist = list_with_common_words(prioritize_unique_letters(optimizedList))
-        if commonlist:
-            startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
-        else:
-            startWord = get_word_with_most_recurring_letter(prioritize_unique_letters(optimizedList),
-                                                            LETTERS_NOT_USED)
+        startWord = get_word_with_most_recurring_letter(optimizedList, LETTERS_NOT_USED)
     return startWord
-
 
 
 

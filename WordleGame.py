@@ -1,3 +1,5 @@
+import re
+
 
 class Wordle:
 
@@ -11,15 +13,32 @@ class Wordle:
         self.answer = answer
         self.strategy = wordleStrategy
 
+    def inputResult(self):
+        while True:
 
-    def get_input_from_words(self, guess):
+            result = input('Result? ')
+            if self.valid_result(result):
+                return result
+            else:
+                print("Invalid result")
+
+    def valid_result(self, result):
+        if len(result) != 5:
+            return False
+        if not bool(re.match('^[012]+$', result)):
+            return False
+        return True
+
+    def get_input_from_words(self, guess, correct_word):
         input = list('-----')
+        answer = list(correct_word)
         index = 0
         for letter in guess:
-            if letter == self.answer[index]:
+            if letter == answer[index]:
                 input[index] = '2'
+                answer[index] = '-'
             else:
-                if letter in self.answer:
+                if letter in answer:
                     input[index] = '1'
                 else:
                     input[index] = '0'
@@ -27,19 +46,26 @@ class Wordle:
         return ''.join(input)
 
 
-    def play(self):
+    def benchmark(self):
         input = '-----'
         guess = ''
         while input != '22222':
             self.ATTEMPTS += 1
             guess = self.strategy.get_word(input, guess)
 
-            print(guess)
+
             # Get input answer from guess
+            input = self.get_input_from_words(guess, self.answer)
 
-            input = self.get_input_from_words(guess)
 
-            print(input)
+
+    def play(self, first_guess):
+        input = ''
+        guess = first_guess
+        while input != '22222':
+            input = self.inputResult()
+            guess = self.strategy.get_word(input, guess)
+            print("Guess with word:" + guess)
 
 
 

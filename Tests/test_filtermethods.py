@@ -1,5 +1,5 @@
 import unittest
-import wordleStrategy
+import WordleHardStrategy
 
 
 class MyTestCase(unittest.TestCase):
