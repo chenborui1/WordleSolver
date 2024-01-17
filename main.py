@@ -35,3 +35,4 @@ if __name__ == "__main__":
     algorithm = WordleHardStrategy
     game = Wordle('HARD', "",algorithm)
     game.play('salet')
+    hello = 1
