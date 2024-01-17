@@ -27,15 +27,13 @@ def find_first_guess(wordList):
 
 
 def filterWordsByLetter(wordList, alphabet):
-    for word in wordList:
-        letters = set(word)
-        if alphabet in letters:
-            wordList.remove(word)
-    return wordList
+    availableAlphabets = list(alphabet.strip())
+    return [str for str in wordList if
+             any(sub in str for sub in alphabet)]
+    
 
 
 def validResult(result):
-    checkerForInteger = False
     if len(result) != 5:
         return False
     if not bool(re.match('^[012]+$', result)):
@@ -54,6 +52,7 @@ def inputResult():
 
 
 def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
+    wordListCopy = wordList.copy()
     # Need to update word alphabets based on user input
     # Analyze user input and word used to change availableAlphabets
     # Ultimately get the next best word to try
@@ -69,11 +68,15 @@ def analyze_result(wordUsed, userInput, availableAlphabets, wordList):
 
         if element == '0':
             availableAlphabets = availableAlphabets.replace(wordUsed[index], '')
-            filterWordsByLetter(wordList, wordUsed[index])
+            filteredlist = filterWordsByLetter(wordListCopy, availableAlphabets)
+            wordListCopy.clear()
+            wordListCopy.append(filteredlist)
 
         index += 1
+    
+    print(wordListCopy)
 
-    print(wordList)
+    
 
 
 # Code base
