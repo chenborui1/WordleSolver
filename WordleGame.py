@@ -1,7 +1,16 @@
+import os
 import re
 
+current_directory = os.getcwd()
+allwords = open("Wordlists/words.txt", "r")
+commonwords = open("Wordlists/commonwords.txt", "r")
+commonwords_to_list = commonwords.read().split("\n")
+words_to_list = allwords.read().split("\n")
+commonwords.close()
+allwords.close()
 
 class Wordle:
+
 
     #RESULTS
     ATTEMPTS = 0

@@ -181,7 +181,7 @@ def get_word(answer_input, word):
         LETTERS_NOT_USED = 'abcdefghijklmnopqrstuvwxyz'
         listOfMostUniqueVowels = find_first_guess(words_to_list)
         random_most_unique_vowel_word = random.choice(listOfMostUniqueVowels)
-        return random_most_unique_vowel_word
+        return 'salet'
     else:
         startWord = word
 
@@ -189,9 +189,10 @@ def get_word(answer_input, word):
     optimizedList = analyze_result(startWord, answer_input, words_to_list)
     commonlist = list_with_common_words(optimizedList)
     if commonlist:
-        startWord = get_word_with_most_recurring_letter(commonlist, LETTERS_NOT_USED)
+        startWord = random.choice(commonlist)
     else:
-        startWord = get_word_with_most_recurring_letter(optimizedList, LETTERS_NOT_USED)
+        startWord = random.choice(optimizedList)
+    print(len(optimizedList))
     return startWord
 
 

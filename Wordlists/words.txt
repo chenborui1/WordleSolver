@@ -641,6 +641,7 @@ cades
 layed
 snail
 fykes
+ousia
 nevus
 wings
 toile
@@ -4729,6 +4730,7 @@ cubes
 trone
 knout
 sculs
+meteg
 fakie
 inset
 koran
@@ -5496,6 +5498,7 @@ pfftt
 mills
 minxy
 tykes
+atmos
 suite
 ramis
 merks
@@ -14850,4 +14853,3 @@ decal
 fungs
 cadgy
 jalap
-zelle

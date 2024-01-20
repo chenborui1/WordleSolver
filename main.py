@@ -27,12 +27,13 @@ if __name__ == "__main__":
         Words_Solved += 1
         print(Words_Solved)
 
+
+
     Average_attempt = Total_Attempts / len(words_to_list)
     print("Average: " + str(Average_attempt))
     print("Failed: " + str(Words_Not_Solved))
     print(List_Words_Not_Solved)
     """
     algorithm = WordleHardStrategy
-    game = Wordle('HARD', "",algorithm)
-    game.play('salet')
-    hello = 1
+    game = Wordle('HARD', "slate",algorithm)
+    game.play('slate')
