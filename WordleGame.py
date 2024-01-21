@@ -6,10 +6,18 @@ allwords = open("Wordlists/words.txt", "r")
 commonwords = open("Wordlists/commonwords.txt", "r")
 commonwords_to_list = commonwords.read().split("\n")
 words_to_list = allwords.read().split("\n")
-commonwords.close()
-allwords.close()
+
 
 class Wordle:
+    list_of_words = []
+    list_of_commonwords = []
+
+    for words in words_to_list:
+        list_of_words.append(words)
+
+    for words in commonwords_to_list:
+        list_of_commonwords.append(words)
+
 
 
     #RESULTS
@@ -54,27 +62,38 @@ class Wordle:
             index += 1
         return ''.join(input)
 
+    def reset_lists(self):
+        self.list_of_words.clear()
+        self.list_of_commonwords.clear()
+        self.list_of_words.extend(words_to_list)
+        self.list_of_commonwords.extend(commonwords_to_list)
 
     def benchmark(self):
+
         input = '-----'
         guess = ''
         while input != '22222':
             self.ATTEMPTS += 1
-            guess = self.strategy.get_word(input, guess)
+
+            guess = self.strategy.get_word(input, guess, self.list_of_words, self.list_of_commonwords)
 
 
             # Get input answer from guess
             input = self.get_input_from_words(guess, self.answer)
+            print(guess)
+        self.reset_lists()
 
 
 
-    def play(self, first_guess):
+    def solve_wordle(self, first_guess):
         input = ''
         guess = first_guess
         while input != '22222':
             input = self.inputResult()
-            guess = self.strategy.get_word(input, guess)
+            guess = self.strategy.get_word(input, guess, words_to_list, commonwords_to_list)
             print("Guess with word:" + guess)
+        self.reset_lists()
+
 
 
 
