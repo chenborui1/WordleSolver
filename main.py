@@ -1,7 +1,13 @@
 import os
+import time
+
 from WordleGame import Wordle
-from Strategies import HModeSimpleStrategy
+from Strategies import HModeSimple
 from Strategies import NModeMaximizeEntropy
+from Strategies import NModeMaximizeEntropyCommon
+from Strategies import HModeMaximizeEntropyCommon
+from Strategies import HModeMaximizeEntropy
+from Strategies import HModeSimpleCommon
 import sys
 
 
@@ -15,7 +21,15 @@ words = wordleanswers.read()
 words_to_list = words.split("\n")
 wordleanswers.close()
 
+
+
 if __name__ == "__main__":
+    """
+    algorithm = NModeMaximizeEntropyCommon
+    game = Wordle("parer", algorithm, "HARD")
+    print("Guess with word: salet")
+    game.solve_wordle('salet')
+
     """
     Total_Attempts = 0
     Words_Solved = 0
@@ -23,10 +37,13 @@ if __name__ == "__main__":
     List_Words_Not_Solved = []
 
     for word in words_to_list:
-        algorithm = HModeSimpleStrategy
-        game = Wordle('HARD', word, algorithm)
+        sys.stdout.write("\rCompleted: %d/%d" % (Words_Solved, len(words_to_list)))
+        algorithm = NModeMaximizeEntropyCommon
+        game = Wordle(word, algorithm, 'HARD')
         game.benchmark()
+
         Total_Attempts += game.ATTEMPTS
+
         if game.ATTEMPTS > 6:
             Words_Not_Solved += 1
             List_Words_Not_Solved.append(word)
@@ -34,28 +51,14 @@ if __name__ == "__main__":
             Words_Solved += 1
         bar = ''
         bar += "\u2588"
-        sys.stdout.write("\rCompleted: %d/%d" % (Words_Solved, len(words_to_list)))
+
         sys.stdout.flush()
-
-
-
-
 
     Average_attempt = Total_Attempts / len(words_to_list)
     print("\nAverage: " + str(Average_attempt))
     print("Solved: " + str(Words_Solved))
-    print("Failed: " + str(Words_Not_Solved))
+    print("Words solved above 6 tries: " + str(Words_Not_Solved))
     print(List_Words_Not_Solved)
-    """
-    """
-    algorithm = HModeSimpleStrategy
-    game = Wordle('HARD', "parer", algorithm)
-    game.solve_wordle('salet')
-        """
 
 
-    algorithm = NModeMaximizeEntropy
-    game = Wordle('HARD', 'parer', algorithm)
-    game.benchmark()
-    print(game.ATTEMPTS)
 

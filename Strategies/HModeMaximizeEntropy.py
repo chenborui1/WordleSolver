@@ -1,8 +1,10 @@
+
 import FilterPossibleWords
 import math
 
-allguessingwords = open("Wordlists/words.txt", "r")
-words_to_list = allguessingwords.read().split("\n")
+
+
+
 def get_input_from_words(guess, correct_word):
     input = list('-----')
     answer = list(correct_word)
@@ -20,11 +22,15 @@ def get_input_from_words(guess, correct_word):
     return ''.join(input)
 
 
-def get_word(answer_input, word, common_words_list, guesses_word_list):
+def get_word(answer_input, word, common_words_list, words_to_list):
+
+    optimizedList = FilterPossibleWords.analyze_result(word, answer_input, words_to_list)
 
 
-    optimizedList = FilterPossibleWords.analyze_result(word, answer_input, guesses_word_list)
+
     if len(optimizedList) == 1:
+
+
         return optimizedList[0]
     empty_list = []
     empty_list.extend(optimizedList)
@@ -33,16 +39,16 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
 
     entropy = 0
 
-    for words in words_to_list:
-        information = get_expected_max_entropy(words, optimizedList)
+    for word in optimizedList:
+
+        information = get_expected_max_entropy(word, optimizedList)
         optimizedList.clear()
         optimizedList.extend(empty_list)
 
         if information > entropy:
 
             entropy = information
-            highest_entropy_words.append(words)
-    print(optimizedList)
+            highest_entropy_words.append(word)
 
 
     return highest_entropy_words[-1]
@@ -73,9 +79,13 @@ def get_expected_max_entropy(word, optimized_list):
 
     return expected_information
 
-
 """
 *****RESULT*****
+Completed: 2225/2315
+Average: 4.247516198704104
+Solved: 2225
+Words solved above 6 tries: 90
+['ankle', 'aping', 'boozy', 'boxer', 'buggy', 'clove', 'corer', 'cover', 'crass', 'craze', 'diver', 'dutch', 'fewer', 'fixer', 'frank', 'gazer', 'grant', 'gully', 'hatch', 'hitch', 'hover', 'irate', 'jelly', 'joker', 'jolly', 'krill', 'ladle', 'layer', 'liner', 'maker', 'mammy', 'might', 'mound', 'mushy', 'musty', 'pasty', 'patch', 'patty', 'penny', 'pitch', 'pound', 'prank', 'prone', 'punch', 'purer', 'pushy', 'putty', 'rider', 'right', 'river', 'rover', 'rower', 'saner', 'sassy', 'savvy', 'sever', 'shame', 'slush', 'sneer', 'spool', 'staid', 'state', 'stave', 'steer', 'stoic', 'stout', 'stove', 'straw', 'stray', 'swell', 'taint', 'taper', 'taunt', 'tight', 'tripe', 'trite', 'vaunt', 'wager', 'watch', 'water', 'wider', 'wight', 'willy', 'witch', 'witty', 'woody', 'worse', 'wrack', 'wrest', 'zesty']
 
 
 """

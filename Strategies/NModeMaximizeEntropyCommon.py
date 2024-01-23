@@ -1,8 +1,9 @@
 import FilterPossibleWords
 import math
 
-allguessingwords = open("Wordlists/words.txt", "r")
-words_to_list = allguessingwords.read().split("\n")
+commonguessingwords = open("Wordlists/commonwords.txt", "r")
+words_to_list = commonguessingwords.read().split("\n")
+
 def get_input_from_words(guess, correct_word):
     input = list('-----')
     answer = list(correct_word)
@@ -33,8 +34,11 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
 
     entropy = 0
 
-    for words in words_to_list:
+
+    for words in common_words_list:
+
         information = get_expected_max_entropy(words, optimizedList)
+
         optimizedList.clear()
         optimizedList.extend(empty_list)
 
@@ -42,7 +46,6 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
 
             entropy = information
             highest_entropy_words.append(words)
-    print(optimizedList)
 
 
     return highest_entropy_words[-1]
@@ -57,7 +60,6 @@ def get_expected_max_entropy(word, optimized_list):
 
 
     for optimize_word in optimized_list:
-
         input = get_input_from_words(word, optimize_word)
         new_list_size = len(FilterPossibleWords.analyze_result(word, input, optimized_list))
 
