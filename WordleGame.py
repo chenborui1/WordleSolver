@@ -99,6 +99,7 @@ class Wordle:
                 # Get input answer from guess
                 input = self.get_input_from_words(guess, self.answer)
                 self.ATTEMPTS += 1
+            print(guess)
         self.reset_lists()
 
 

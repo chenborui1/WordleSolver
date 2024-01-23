@@ -39,7 +39,7 @@ if __name__ == "__main__":
     for word in words_to_list:
         sys.stdout.write("\rCompleted: %d/%d" % (Words_Solved, len(words_to_list)))
         algorithm = NModeMaximizeEntropyCommon
-        game = Wordle(word, algorithm, 'HARD')
+        game = Wordle(word, algorithm, 'NORMAL')
         game.benchmark()
 
         Total_Attempts += game.ATTEMPTS
@@ -59,6 +59,5 @@ if __name__ == "__main__":
     print("Solved: " + str(Words_Solved))
     print("Words solved above 6 tries: " + str(Words_Not_Solved))
     print(List_Words_Not_Solved)
-
 
 

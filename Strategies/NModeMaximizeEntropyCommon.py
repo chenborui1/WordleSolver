@@ -4,6 +4,9 @@ import math
 commonguessingwords = open("Wordlists/commonwords.txt", "r")
 words_to_list = commonguessingwords.read().split("\n")
 
+combination = open("Wordlists/combination.txt", "r")
+combination_to_list = combination.read().split("\n")
+
 def get_input_from_words(guess, correct_word):
     input = list('-----')
     answer = list(correct_word)
@@ -27,6 +30,7 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
     optimizedList = FilterPossibleWords.analyze_result(word, answer_input, guesses_word_list)
     if len(optimizedList) == 1:
         return optimizedList[0]
+    print(guesses_word_list)
     empty_list = []
     empty_list.extend(optimizedList)
 
@@ -34,17 +38,30 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
 
     entropy = 0
 
-
     for words in common_words_list:
+        added_bits = 0
+        for comb in combination_to_list:
 
-        information = get_expected_max_entropy(words, optimizedList)
+            new_list_size = len(FilterPossibleWords.analyze_result(words, comb, guesses_word_list))
 
-        optimizedList.clear()
-        optimizedList.extend(empty_list)
+            guesses_word_list.clear()
+            guesses_word_list.extend(empty_list)
+
+            probability = new_list_size / len(empty_list)
+
+            if probability != 0:
+
+                added_bits += math.log(1 / probability, 2)
+
+
+        #information = get_expected_max_entropy(words, optimizedList)
+        information = added_bits / len(empty_list)
+
 
         if information > entropy:
 
             entropy = information
+
             highest_entropy_words.append(words)
 
 
