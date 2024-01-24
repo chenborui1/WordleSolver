@@ -130,5 +130,3 @@ def prioritize_unique_letters(optimizedlist):
             emptylist.append(words)
 
     return emptylist
-
-

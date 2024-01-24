@@ -22,7 +22,7 @@ def get_input_from_words(guess, correct_word):
     return ''.join(input)
 
 
-def get_word(answer_input, word, common_words_list, words_to_list):
+def get_word(answer_input, word, common_words_list, words_to_list, answer_list):
 
     optimizedList = FilterPossibleWords.analyze_result(word, answer_input, words_to_list)
 
@@ -40,7 +40,7 @@ def get_word(answer_input, word, common_words_list, words_to_list):
 
     entropy = 0
 
-    for word in optimizedList :
+    for word in commonlist :
 
         information = get_expected_max_entropy(word, optimizedList)
         optimizedList.clear()
@@ -51,20 +51,7 @@ def get_word(answer_input, word, common_words_list, words_to_list):
             entropy = information
             highest_entropy_words.append(word)
 
-    if(len(highest_entropy_words) > 10):
-        empty = []
-        for x in range(10):
-            empty.append(highest_entropy_words[x])
-        for word in empty:
-            if word in commonlist:
 
-                return word
-    else:
-
-        for word in highest_entropy_words:
-            if word in commonlist:
-
-                return word
 
     return highest_entropy_words[-1]
 
@@ -108,6 +95,13 @@ Average: 3.800779558250325
 Solved: 2294
 Words solved above 6 tries: 15
 ['bound', 'boxer', 'creak', 'dolly', 'fight', 'found', 'goose', 'hatch', 'jaunt', 'joker', 'match', 'right', 'rower', 'stave', 'wooer']
+
+Improved:
+Average: 3.547732181425486
+Solved: 2303
+Words solved above 6 tries: 12
+['corer', 'joker', 'pound', 'roger', 'rover', 'super', 'tatty', 'vaunt', 'waste', 'watch', 'wight', 'wound']
+
 
 Process finished with exit code 0
 

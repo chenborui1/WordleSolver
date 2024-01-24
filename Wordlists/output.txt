@@ -135,7 +135,7 @@
 21110 = scale
 21111 = slate
 21200 = solar
-21201 = splat
+21202 = splat
 22000 = copsy
 22001 = satin
 22002 = saint

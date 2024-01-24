@@ -17,20 +17,18 @@ import sys
 
 current_directory = os.getcwd()
 wordleanswers = open("Wordlists/wordle_answers", "r")
-words = wordleanswers.read()
-words_to_list = words.split("\n")
+words_to_list = wordleanswers.read().split("\n")
 wordleanswers.close()
-
 
 
 if __name__ == "__main__":
     """
     algorithm = NModeMaximizeEntropyCommon
-    game = Wordle("parer", algorithm, "HARD")
+    game = Wordle("spent", algorithm, "HARD")
     print("Guess with word: salet")
     game.solve_wordle('salet')
-
     """
+
     Total_Attempts = 0
     Words_Solved = 0
     Words_Not_Solved = 0
@@ -38,7 +36,7 @@ if __name__ == "__main__":
 
     for word in words_to_list:
         sys.stdout.write("\rCompleted: %d/%d" % (Words_Solved, len(words_to_list)))
-        algorithm = NModeMaximizeEntropyCommon
+        algorithm = NModeMaximizeEntropy
         game = Wordle(word, algorithm, 'NORMAL')
         game.benchmark()
 
@@ -60,4 +58,9 @@ if __name__ == "__main__":
     print("Words solved above 6 tries: " + str(Words_Not_Solved))
     print(List_Words_Not_Solved)
 
+    """
 
+    algorithm = NModeMaximizeEntropyCommon
+    game = Wordle('splat', algorithm, 'NORMAL')
+    game.benchmark()
+    """

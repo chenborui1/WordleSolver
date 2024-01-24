@@ -20,7 +20,7 @@ def get_input_from_words(guess, correct_word):
     return ''.join(input)
 
 
-def get_word(answer_input, word, common_words_list, guesses_word_list):
+def get_word(answer_input, word, common_words_list, guesses_word_list, answers_list):
 
 
     optimizedList = FilterPossibleWords.analyze_result(word, answer_input, guesses_word_list)
@@ -42,7 +42,7 @@ def get_word(answer_input, word, common_words_list, guesses_word_list):
 
             entropy = information
             highest_entropy_words.append(words)
-    print(optimizedList)
+
 
 
     return highest_entropy_words[-1]
