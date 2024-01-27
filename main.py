@@ -74,7 +74,7 @@ if __name__ == "__main__":
         else:
             raise Exception("Invalid Mode")
 
-    if option == "solve":
+    elif option == "solve":
         if mode == "HARD":
             algorithm = HModeMaximizeEntropyCommon
             solve(mode, algorithm)
