@@ -16,7 +16,7 @@ Make sure you have the following installed on your machine:
 1. Download the ZIP of this repo:
 
 
-2. Unzip and open a terminal
+2. Unzip and open a terminal window
 3. Navigate to the project directory:
 
     ```bash
