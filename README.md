@@ -43,6 +43,7 @@ Make sure you have the following installed on your machine:
 
 4. Retrieve the Wordle guess and guess with that word in your game browser
 5. Input your 5-digit guess result in the console
+   
    Here's an example of inputting a valid result:
    ```bash
    01120
@@ -50,7 +51,7 @@ Make sure you have the following installed on your machine:
    '0' stands for a grey colored result
    '1' stands for a yellow colored result
    '2' stands for a green colored result
-6. Repeat steps 3-4 until you solve the wordle game in your browser
+7. Repeat steps 3-4 until you solve the wordle game in your browser
 
 ### Command Line Arguments
 - `benchmark`: Run WordleSolver in benchmark mode.
