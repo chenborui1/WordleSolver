@@ -2,7 +2,7 @@
 
 ## Introduction
 This repository contains a Python script designed to solve Wordle puzzles in hard or normal mode. Wordle is a popular word puzzle game where the player has to guess a hidden five-letter word within six attempts.
-The default strategy used for both game modes is an entropy maximization algorithm that implements a list of all valid wordle guesses and a common-word list. More information in the 'Results.txt' file under 'Tests' directory
+The default strategy used for both game modes is an entropy maximization algorithm that implements a list of all valid wordle guesses and a common-word list. Benchmark results of each algorithm are in the 'Results.txt' file under 'Tests' directory
 
 ## Getting Started
 Follow the steps below to run the WordleSolver Python script and start solving Wordle puzzles.
@@ -61,5 +61,27 @@ Make sure you have the following installed on your machine:
 
 The default strategy for HARD mode uses the HMODEMaximizeEntropyCommon.py script
 The default strategy for NORMAL mode uses the NMODEMaximizeEntropyCommon.py script
+You may change the main.py script to use different strategies:
+
+All strategies include:
+
+HModeMaximizeEntropy
+
+HModeMaximizeEntropyCommon
+
+HModeSimple
+
+HModeSimpleCommon
+
+NModeMaximizeEntropy
+
+NModeMaximizeEntropyCommon
+
+
+Benchmark Mode will run a benchmark on all 2315 possible Wordle Game using the default strategy for the inputted mode. It will print out the average attempts to solve all words, number of words it solved under 7 tries, number of words it solved over 6 tries,
+
+Running benchmark or solves can take a considerable amount of time to make a guess or display results since certain strategies must run through all 14,000 possible wordle guesses
+and determine the expected information gained for every possible Wordle color combination. 
+Use the command 'ctrl C" to exit the program
 
 
