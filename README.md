@@ -1,7 +1,7 @@
 # WordleSolver README
 
 ## Introduction
-Welcome to the WordleSolver repository! This repository contains a Python script designed to solve Wordle puzzles in hard or normal mode. Wordle is a popular word puzzle game where the player has to guess a hidden five-letter word within six attempts.
+This repository contains a Python script designed to solve Wordle puzzles in hard or normal mode. Wordle is a popular word puzzle game where the player has to guess a hidden five-letter word within six attempts.
 The default strategy used for both game modes is an entropy maximization algorithm that implements a list of all valid wordle guesses and a common-word list. More information in the 'Results.txt' file under 'Tests' directory
 
 ## Getting Started
