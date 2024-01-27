@@ -1,3 +1,4 @@
+import argparse
 import os
 import time
 
@@ -10,25 +11,23 @@ from Strategies import HModeMaximizeEntropy
 from Strategies import HModeSimpleCommon
 import sys
 
-
-
-
-    # or other long operations
+# or other long operations
 
 current_directory = os.getcwd()
 wordleanswers = open("Wordlists/wordle_answers", "r")
 words_to_list = wordleanswers.read().split("\n")
 wordleanswers.close()
 
+parser = argparse.ArgumentParser()
+parser.add_argument('options', type=str, help='Mode')
+parser.add_argument('mode', type=str, help='mode of wordle game')
+command = parser.parse_args()
 
-if __name__ == "__main__":
-    """
-    algorithm = NModeMaximizeEntropyCommon
-    game = Wordle("spent", algorithm, "HARD")
-    print("Guess with word: salet")
-    game.solve_wordle('salet')
-    """
+option = command.options
+mode = command.mode
 
+
+def benchmark(mode, algorithm):
     Total_Attempts = 0
     Words_Solved = 0
     Words_Not_Solved = 0
@@ -36,8 +35,7 @@ if __name__ == "__main__":
 
     for word in words_to_list:
         sys.stdout.write("\rCompleted: %d/%d" % (Words_Solved, len(words_to_list)))
-        algorithm = NModeMaximizeEntropy
-        game = Wordle(word, algorithm, 'NORMAL')
+        game = Wordle(word, algorithm, mode)
         game.benchmark()
 
         Total_Attempts += game.ATTEMPTS
@@ -58,9 +56,32 @@ if __name__ == "__main__":
     print("Words solved above 6 tries: " + str(Words_Not_Solved))
     print(List_Words_Not_Solved)
 
-    """
 
-    algorithm = NModeMaximizeEntropyCommon
-    game = Wordle('splat', algorithm, 'NORMAL')
-    game.benchmark()
-    """
+def solve(mode, algorithm):
+    game = Wordle('', algorithm, mode)
+    game.solve_wordle('salet')
+
+
+if __name__ == "__main__":
+
+    if option == "benchmark":
+        if mode == "HARD":
+            algorithm = HModeMaximizeEntropyCommon
+            benchmark(mode, algorithm)
+        if mode == "NORMAL":
+            algorithm = NModeMaximizeEntropyCommon
+            benchmark(mode, algorithm)
+        else:
+            raise Exception("Invalid Mode")
+
+    if option == "solve":
+        if mode == "HARD":
+            algorithm = HModeMaximizeEntropyCommon
+            solve(mode, algorithm)
+        if mode == "NORMAL":
+            algorithm = NModeMaximizeEntropyCommon
+            solve(mode, algorithm)
+        else:
+            raise Exception("Invalid Mode")
+    else:
+        raise Exception("Invalid program option")

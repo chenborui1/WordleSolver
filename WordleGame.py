@@ -129,20 +129,40 @@ class Wordle:
 
 
     def solve_wordle(self, first_guess):
-
-        input = ''
+        print("Guess with word: salet")
+        input = self.inputResult()
         guess = first_guess
         self.ATTEMPTS +=1
+        optimizedList = FilterPossibleWords.analyze_result(guess, input, self.list_of_guessing_words)
+        probability = 1 / len(optimizedList)
+        salet_information = 13.66 - math.log(1 / probability, 2)
+        uncertainty = 13.66 - salet_information
+
         while input != '22222':
-            input = self.inputResult()
-            if self.ATTEMPTS == 1:
+
+
+
+            if self.ATTEMPTS == 1 and self.mode == "NORMAL":
                 self.ATTEMPTS += 1
                 guess = self.retrieve_bin(input)
+                print("Guess with word:" + guess)
+                input = self.inputResult()
+                optimizedList = FilterPossibleWords.analyze_result(guess, input, self.list_of_guessing_words)
+                probabilitytwo = 1 / len(optimizedList)
+                second_information = uncertainty - math.log(1 / probabilitytwo, 2)
+                uncertainty = uncertainty - second_information
             else:
                 self.ATTEMPTS += 1
 
-                guess = self.strategy.get_word(input, guess, commonwords_to_list, self.list_of_guessing_words, self.list_of_answers)
-            print("Guess with word:" + guess)
+                guess = self.strategy.get_word(input, guess, commonwords_to_list, optimizedList, uncertainty)
+                probabilityrepeat = 1 / len(optimizedList)
+                repeat_information = uncertainty - math.log(1 / probabilityrepeat, 2)
+                uncertainty = uncertainty - repeat_information
+                print("Guess with word:" + guess)
+                input = self.inputResult()
+
+
+
         self.reset_lists()
 
 

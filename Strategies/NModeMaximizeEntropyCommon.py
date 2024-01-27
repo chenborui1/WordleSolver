@@ -80,12 +80,3 @@ def get_expected_max_entropy(word, optimized_list):
     return expected_information
 
 
-"""
-*****RESULT*****
-Completed: 2306/2315
-Average: 3.6259179265658745
-Solved: 2307
-Words solved above 6 tries: 8
-['freed', 'hitch', 'hover', 'pound', 'water', 'wight', 'witch', 'wound']
-
-"""

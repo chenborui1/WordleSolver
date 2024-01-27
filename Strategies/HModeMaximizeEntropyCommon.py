@@ -22,34 +22,39 @@ def get_input_from_words(guess, correct_word):
     return ''.join(input)
 
 
-def get_word(answer_input, word, common_words_list, words_to_list, answer_list):
+def get_word(answer_input, word, common_words_list, words_to_list, uncertainty):
 
     optimizedList = FilterPossibleWords.analyze_result(word, answer_input, words_to_list)
 
-
-
-
     if len(optimizedList) == 1:
-
-
         return optimizedList[0]
     empty_list = []
     empty_list.extend(optimizedList)
+
     commonlist = FilterPossibleWords.list_with_common_words(optimizedList, common_words_list)
     highest_entropy_words = []
 
     entropy = 0
+    if uncertainty < 5:
+        for word in optimizedList:
 
-    for word in commonlist :
+            information = get_expected_max_entropy(word, optimizedList)
+            optimizedList.clear()
+            optimizedList.extend(empty_list)
 
-        information = get_expected_max_entropy(word, optimizedList)
-        optimizedList.clear()
-        optimizedList.extend(empty_list)
+            if information > entropy:
+                entropy = information
+                highest_entropy_words.append(word)
+    else:
+        for small_word in optimizedList:
+            if small_word in commonlist:
+                information = get_expected_max_entropy(small_word, optimizedList)
+                optimizedList.clear()
+                optimizedList.extend(empty_list)
 
-        if information > entropy:
-
-            entropy = information
-            highest_entropy_words.append(word)
+                if information > entropy:
+                    entropy = information
+                    highest_entropy_words.append(small_word)
 
 
 
@@ -80,29 +85,3 @@ def get_expected_max_entropy(word, optimized_list):
 
     return expected_information
 
-"""
-*****RESULT*****
-Maximizing entropy and prioritizing common words for every single
-valid guess for HARD mode wordle:
-
-
-Average attempts:
-Percentage of words solved(under 7 tries):
-Unsolved words(>6 guesses):
-
-Completed: 2294/2309
-Average: 3.800779558250325
-Solved: 2294
-Words solved above 6 tries: 15
-['bound', 'boxer', 'creak', 'dolly', 'fight', 'found', 'goose', 'hatch', 'jaunt', 'joker', 'match', 'right', 'rower', 'stave', 'wooer']
-
-Improved:
-Average: 3.547732181425486
-Solved: 2303
-Words solved above 6 tries: 12
-['corer', 'joker', 'pound', 'roger', 'rover', 'super', 'tatty', 'vaunt', 'waste', 'watch', 'wight', 'wound']
-
-
-Process finished with exit code 0
-
-"""
